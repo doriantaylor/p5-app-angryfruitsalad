@@ -1,0 +1,4 @@
+blib
+\.gitignore
+\.hg.*
+.*\.bak
