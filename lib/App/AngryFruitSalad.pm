@@ -2,6 +2,8 @@ package App::AngryFruitSalad;
 use Moose;
 use namespace::autoclean;
 
+use RDF::Trine;
+
 use Catalyst::Runtime 5.80;
 
 # Set flags and add plugins for the application.
@@ -21,6 +23,7 @@ use Catalyst qw/
     ConfigLoader
     Static::Simple
 /;
+#    +CatalystX::Profile
 
 extends 'Catalyst';
 
@@ -45,6 +48,19 @@ __PACKAGE__->config(
 # Start the application
 __PACKAGE__->setup();
 
+
+sub temp_model {
+    # hexastore is fastest by far even though i bet it could be made faster
+    my $store = RDF::Trine::Store::Hexastore->new;
+    # my $store = RDF::Trine::Store->new_with_config({
+    #     storetype => 'Redland',
+    #     store_name => 'memory',
+    #     name => 'derp',
+    #     options => { contexts => 1 },
+    # }) or die $!;
+
+    RDF::Trine::Model->new($store);
+}
 
 =head1 NAME
 
